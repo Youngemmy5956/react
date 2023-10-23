@@ -70,3 +70,43 @@ export default function App() {
     </Parent>
   );
 }
+
+
+// uupdated this code to avoid looping (filter) children in runtime.
+
+// This approach allows you to catch errors at compile time and ensures that the child components adhere to the expected props and structure.
+
+
+
+import React, { ReactElement, ReactNode } from "react";
+
+type ChildProps = {
+  customProp: string;
+};
+
+type ChildComponentProps = {
+  children: ReactNode;
+  customProp: string;
+};
+
+const ChildComponent: React.FC<ChildProps> = ({ customProp }) => {
+  return <div>{customProp}</div>;
+};
+
+const Parent: React.FC<ChildComponentProps> = ({ children, customProp }) => {
+  return (
+    <div>
+      <div>{customProp}</div>
+      {children}
+    </div>
+  );
+};
+
+export default function App() {
+  return (
+    <Parent customProp="Parent Custom Prop">
+      <ChildComponent customProp="Child 1 Custom Prop" />
+      <ChildComponent customProp="Child 2 Custom Prop" />
+    </Parent>
+  );
+}
